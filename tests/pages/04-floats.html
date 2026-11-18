@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="assets/base.css"></head>
+<body>
+<style>.l{float:left;width:120px;height:80px;background:#f99;margin:0 10px 10px 0}.r{float:right;width:100px;height:120px;background:#9f9;margin:0 0 10px 10px}</style>
+<div class="l"></div><div class="r"></div>
+<p>Text flows around a left float and a right float. The lines next to the floats are shorter, and once the floats end the text uses the full width of the containing block again, as this sentence shows by running on.</p>
+<p style="clear:both;background:#eee">A cleared paragraph starts below both floats.</p>
+<div style="overflow:hidden;background:#ddf"><div class="l" style="height:40px"></div>A block formatting context contains its float.</div>
+</body></html>

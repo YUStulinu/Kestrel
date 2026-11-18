@@ -1,0 +1,6 @@
+{
+  "rust-analyzer.linkedProjects": ["engine/Cargo.toml"],
+  "go.toolsEnvVars": { "GOFLAGS": "" },
+  "files.exclude": { "data": true, "run": true },
+  "search.exclude": { "data": true, "run": true, "**/target": true, "devtools/node_modules": true }
+}

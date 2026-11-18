@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  engine:
+    name: Engine (Rust + kjs C++ + Zig decoders), html5lib, Chrome pixel comparison
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: mlugg/setup-zig@v2
+        with:
+          version: 0.17.0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Zig decoder tests
+        run: cd imgdec && zig test src/imgdec.zig
+      - name: Unit tests
+        run: cd engine && cargo test --release
+      - name: Build
+        run: cd engine && cargo build --release
+      - name: html5lib tokenizer and tree construction
+        run: |
+          scripts/fetch_data.sh html5lib-tests wpt-parsing
+          python harness/html5lib_runner.py --kestrel engine/target/release/kestrel --json html5lib.json
+          python -c "import json,sys; r=json.load(open('html5lib.json')); t=r['tokenizer']; c=r['tree']; sys.exit(0 if t['passed']==t['run'] and c['passed']>=c['total']-3 else 1)"
+      - name: Pixel comparison against the committed Chrome references
+        run: |
+          KESTREL=engine/target/release/kestrel python harness/chrome_compare.py --json compare.json
+          python -c "import json,sys; m=json.load(open('compare.json'))['mean']; sys.exit(0 if m['exact']>0.95 else 1)"
+
+  kjs:
+    name: kjs JavaScript engine (C++) on a test262 sample
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: js/build.sh
+      - name: test262 (Math, JSON, Boolean)
+        run: |
+          scripts/fetch_data.sh test262
+          for d in built-ins/Math built-ins/JSON built-ins/Boolean; do
+            python3 harness/test262_runner.py --kjs js/build/kjs --filter "test/$d/" --json t.json
+            python3 -c "import json,sys; r=json.load(open('t.json')); sys.exit(0 if r['passed']/r['total']>0.85 else 1)"
+          done
+
+  net:
+    name: Network layer and cache (Go)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.24"
+      - run: cd net && go vet ./... && go test ./...
+
+  devtools:
+    name: Devtools panel (TypeScript)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - run: cd devtools && npm ci && npm run build && npm test

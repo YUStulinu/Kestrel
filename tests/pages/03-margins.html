@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="assets/base.css"></head>
+<body>
+<style>div{background:#fec}p{margin:20px 0;background:#cef}</style>
+<div><p>Parent and first child margins collapse.</p><p>Sibling margins collapse to 20px.</p></div>
+<div style="margin-top:30px;border-top:1px solid #000"><p>A border stops the collapse.</p></div>
+<div style="margin:10px 0"></div><div style="margin:25px 0;height:20px">An empty box collapses through.</div>
+</body></html>

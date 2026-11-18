@@ -1,0 +1,3 @@
+{
+  "recommendations": ["rust-lang.rust-analyzer", "golang.go", "ziglang.vscode-zig", "llvm-vs-code-extensions.vscode-clangd", "ms-python.python"]
+}

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="assets/base.css"></head>
+<body>
+<div id="app"></div>
+<script>
+const app = document.getElementById("app");
+const h = document.createElement("h2"); h.textContent = "Built by JavaScript"; app.appendChild(h);
+const ul = document.createElement("ul");
+for (const [i, w] of ["parse", "style", "layout", "paint"].entries()) {
+  const li = document.createElement("li"); li.textContent = (i + 1) + ". " + w;
+  if (i % 2) li.style.color = "#c33"; ul.appendChild(li);
+}
+app.appendChild(ul);
+app.insertAdjacentHTML("beforeend", "<p class='n'>" + document.querySelectorAll("li").length + " items</p>");
+</script>
+</body></html>

@@ -1,0 +1,11 @@
+data/
+run/
+target/
+js/build/
+devtools/node_modules/
+devtools/dist/
+net/kestrel-net
+net/kestrel-net.exe
+imgdec/.zig-cache/
+imgdec/zig-out/
+__pycache__/
