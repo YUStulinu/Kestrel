@@ -147,7 +147,7 @@ python harness/chrome_compare.py                       # --update re-shoots Chro
 - **Zig:** inflate, plus decoding real PNGs.
 - **Go:** chunked and gzip responses, cache freshness and revalidation, the fetch daemon.
 - **TypeScript:** tree indexing, hit testing, box model and timeline.
-- **CI** (`.github/workflows/ci.yml`) runs all of these. It also runs the html5lib suites, the Chrome comparison against the committed references, and a test262 sample (Math, JSON, Boolean).
+- **CI** (`.github/workflows/ci.yml`) runs all of these. It also runs the html5lib suites, the Chrome comparison against the committed references, and a test262 sample (Math, Number, Boolean; each must stay above 85%).
 
 ## Limits (honest list)
 
